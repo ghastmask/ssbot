@@ -2,6 +2,7 @@
 
 #include "algorithms.h"
 
+#include <cctype>
 #include <fstream>
 using namespace std;
 
@@ -154,7 +155,7 @@ bool readDataLines(char *name, void (*callback)(char *line))
 			break;
 		default:
 			if (i >= 255) break;
-			if (i == 0) skip = !isAlphaNumeric(c);
+			if (i == 0) skip = !std::isalnum(c);
 			buffer[i++] = c;
 		case '\r':;
 		}

@@ -24,7 +24,7 @@ bool invalidName(char *name)
 	}
 
 	// First character must be alphanumeric
-	if (!isAlphaNumeric(*name)) return true;
+	if (!std::isalnum(*name)) return true;
 
 	// Cannot end in a space
 	if (name[len - 1] == ' ') return true;
@@ -32,7 +32,7 @@ bool invalidName(char *name)
 	for (Uint32 i = 0; i < len; ++i)
 	{
 		// Only legal & printable characters
-		if ( !isPrintable(name[i])		||
+		if ( !std::isprint(name[i])		||
 		   (  name[i] == ':'     )		||
 		   (  name[i] == '%'     )		 )
 		{
@@ -79,7 +79,7 @@ bool invalidArena(char *name)
 	for (; i < len; ++i)
 	{
 		// Only alpha-numeric characters
-		if (!isAlphaNumeric(name[i]))
+		if (!std::isalnum(name[i]))
 		{
 			return true;
 		}

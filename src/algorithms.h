@@ -26,10 +26,6 @@ void tolower(char *buffer);		// Use tolower on a whole string
 
 void toupper(char *buffer);		// Use toupper on a whole string
 
-
-bool isPrintable(char c);		// Determine if you can see this character
-bool isAlphaNumeric(char c);	// Determine if this character is alpha-numeric
-
 bool isNumeric(char *buffer);	// Determine if this string is entirely numerical
 
 

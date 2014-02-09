@@ -3,6 +3,7 @@
 #include "checksum.h"
 #include "algorithms.h"
 
+#include <cctype>
 #include <string.h>
 
 
@@ -227,7 +228,7 @@ void decryptHashedPassword(BYTE *Password)
 			{
 				Char = Buffer[L];
 
-				if (!isPrintable(Char))
+				if (!std::isprint(Char))
 				{
 					OK = false;
 

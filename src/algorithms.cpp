@@ -47,17 +47,6 @@ Uint32 getTime()
 
 //////// Characters ////////
 
-bool isPrintable(char c)
-{
-	return (c >= ' ' && c <= '~');
-}
-
-bool isAlphaNumeric(char c)
-{
-	return ((c >= 'a' && c <= 'z') ||
-			(c >= 'A' && c <= 'Z') ||
-			(c >= '0' && c <= '9')  );
-}
 
 bool isNumeric(char *buffer)
 {

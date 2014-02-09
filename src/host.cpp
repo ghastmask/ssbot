@@ -8,6 +8,7 @@
 #include "hack.h"
 #include "botdb.h"
 
+#include <cctype>
 #include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
@@ -2466,7 +2467,7 @@ String makePacketLog(char *prefix, char *packet, Uint32 len)
 		s += " ";
 
 		c = packet[cnt];
-		if (isPrintable((char)c))
+		if (std::isprint((char)c))
 			stringRep[strOffset++] = c;
 		else
 			stringRep[strOffset++] = '.';
