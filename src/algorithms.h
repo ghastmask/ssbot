@@ -22,10 +22,8 @@ Sint32 sgn(Sint32 a);	// Return the sign
 Uint32 getTime();	// Return time since boot in hundredths of a second
 
 
-char tolower(char c);			// Change upper-case to lower-case letters
 void tolower(char *buffer);		// Use tolower on a whole string
 
-char toupper(char c);			// Change lower-case to upper-case letters
 void toupper(char *buffer);		// Use toupper on a whole string
 
 

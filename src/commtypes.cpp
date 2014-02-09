@@ -1,5 +1,6 @@
 #include "commtypes.h"
 
+#include <cctype>
 #include <string.h>
 
 #include "algorithms.h"
@@ -308,7 +309,7 @@ Command::Command(char *msg)
 			return;
 		default:
 			if (inStub)
-				c = tolower(c);
+				c = std::tolower(c);
 			else if (seenSpace)
 			{
 				inFinal = true;
@@ -346,7 +347,7 @@ bool Command::checkParam(char *msg)
 	{
 		c = *msg++;
 
-		if (c != tolower(final[i++]))
+		if (c != std::tolower(final[i++]))
 			return false;
 	} while (c);
 
@@ -413,7 +414,7 @@ void Command::addParam(char *msg)
 		default:
 			if (inParams)
 			{
-				type = tolower(c);
+				type = std::tolower(c);
 				_switch *s = new _switch(type, "");
 				if (s) slist.append(s);
 			}

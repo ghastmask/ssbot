@@ -1,5 +1,6 @@
 #include "datatypes.h"
 
+#include <cctype>
 #include <string.h>
 
 #include "algorithms.h"
@@ -64,7 +65,7 @@ bool CMPSTR(const char *a, const char *b)
 {
 	char c;
 
-	while (tolower(c = *a) == tolower(*b))
+	while (std::tolower(c = *a) == std::tolower(*b))
 	{
 		if (!c) return true;
 
