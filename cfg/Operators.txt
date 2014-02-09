@@ -1,0 +1,70 @@
+#############################
+##      Bot operators      ##
+#############################
+
+# Higher numbers on the left mean higher access privs.
+# Scroll down for the list of access privs.
+
+1 :Catid           :
+2 :Snrrrub         :
+3 :Coconut Emulator:
+4 :Snarklord       :
+5 :Ave-iator       :
+6 :nintendo64      :
+7 :SOS             :
+8 :Budger          :
+9 :NOBODY!!!!!!!   :
+10:X_IceHawk       :
+11:L.C.            :
+12:1stStrike       :
+
+# Example backup passwords, for when the biller goes offline:
+
+4 :Catid[bot]      : secret3461
+4 :Snrrrub[bot]    : blarg6581
+
+# Remove these before you make your own operators.
+
+#############################
+## Operators.txt reference ##
+#############################
+
+# NOTE: I suggest using blank passwords for all your operators.
+#       Create backup names WITH passwords in case the biller goes down.
+
+# This file is part of the MERVBot database collection.
+# Changes made while the bot is running WILL be lost.
+
+# Lines beginning with non-alphanumeric characters ('#', '$', etc) are comments
+
+# Operators:
+# This file is used for defining who has access
+# to bot commands from inside the game.
+# These people are called "operators" who are assigned
+# passwords used with the !login <password> command
+# to gain access.  I recommend erasing example
+# operators above, before running the bot.
+
+# Types of Operators:
+# LVL Type           Description
+# 0   Player         Requests information services
+# 1   Limited        Player with some privelages
+# 2   Moderator      Represents player interests
+# 3   SuperModerator Manages moderators
+# 4   SysOp          Represents staff interests
+# 5   Owner          Changes internal bot settings
+#...  (Etc)          Other ways to say "Owner"
+
+# Operators.txt Format:
+# Access level:Name:Password
+# 2:Catid:Password  <- !login Password required
+# 2:Catid:          <- !login Password NOT required
+
+# Blank Passwords:
+# A blank password means operator is granted powers upon entering the arena,
+# and does not need to use !login unless his powers change while he is still
+# in the game.
+
+# White-space:
+# White-space (' ') is ignored before and after colons (':')
+# Ex. 5 : Catid   :   Password  is the same as 5:Catid:Password

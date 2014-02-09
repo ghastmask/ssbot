@@ -1,0 +1,44 @@
+#############################
+##   Initial bot spawns    ##
+#############################
+
+Catid.Bot  :  +++++  :  0  :  alias, flag, rampage  :  mod :
+
+#############################
+##  Spawns.txt reference   ##
+#############################
+
+# This file is part of the MERVBot database collection.
+# Changes made while the bot is running will NOT be lost.
+
+# Lines beginning with non-alphanumeric characters ('#', '$', etc) are comments.
+
+# Spawns:
+# In this file you specify the name(s) your initial bot(s)
+# will use, and what its/their staff password(s) will be.
+
+# WARNING: As a rule of thumb, you can never host more than 3 bots in one zone,
+#          unless the bot is hosted on the same computer as the subspace server.
+
+# Spawns.txt Format:
+# Bot name : Bot password : Arena name : Plugin names : Staff password : Creation string
+
+# NOTE: creation string shoudl always, always, always, always be of the following format:
+# dll_name parameters|dll_name parameters|...
+#
+# Example: flagbot -f=4 -t=10|aliasbot -m=0|goalkeeper goals=2
+#
+# Only bots that explicitly support the creation string will be able to use it
+
+# 0. Bot names will be checked for validity prior to connecting.
+# 1. Bot passwords and arenas may not contain a colon (':').
+# 2. If staff password is blank, the bot will still attempt to use it.
+# 3. Bots do not append staff password to name password, in other words
+#    it is safe to change staff position of an older bot.
+# 4. Staff passwords are case-sensitive and shouldn't start with *.
+# 5. Separate the plugin names with commas: CTF, ELIZA, ALIAS
+# 6. Other login settings are defined in the INI file.
+
+# White-space:
+# White-space (' ') is ignored before and after colons (':')
+# Ex. 5 : Catid   :   Password  is the same as 5:Catid:Password

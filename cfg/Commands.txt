@@ -1,0 +1,189 @@
+#############################
+##     Command aliases     ##
+#############################
+
+# Owner
+terminate:closeall
+shutdown :closeall
+pw       :password
+as       :autosave
+w        :save
+r        :read
+s        :set
+g        :get
+i        :info
+sc       :setcmd
+lc       :listcmd
+kc       :killcmd
+
+# SOp
+c :close
+sp:spawn
+ob:ownbot
+
+# SMod
+op      :addop
+aop     :addop
+createop:addop
+makeop  :addop
+eop     :editop
+changeop:editop
+dop     :deleteop
+removeop:deleteop
+killop  :deleteop
+lm      :limit
+
+# Mod
+sl       :setlogin
+bye      :logout
+ver      :version
+maker    :version
+tell     :say
+advertise:zone
+freq     :team
+w        :where
+loc      :where
+locate   :where
+
+# Limited
+release:give
+disown :give
+
+# Player
+lp      :listop
+oplist  :listop
+listops :listop
+list    :listop
+l       :login
+man     :help
+cmds    :help
+commands:help
+grab    :own
+take    :own
+
+# Disabled
+kill:DISABLED
+
+############################
+## Commands.txt reference ##
+############################
+
+# This file is part of the MERVBot database collection.
+# Changes made while the bot is running WILL be lost.
+
+# Lines beginning with non-alphanumeric characters ('#', '$', etc) are comments
+
+# Aliases:
+# This file is used as both a command reference and to define command aliases,
+# or commands that do the same thing as other commands, with different wording.
+# If you want to make "!AAAAARG" do the same as "!HELP", here's where you do it.
+
+# Commands.txt Format:
+# Command_Alias:Actual_Command
+# Do not include '!' prefix in command alias/actual.
+
+# Examples:
+# editop:eop   <- !editop aliases !eop
+# password:pw  <- !password aliases !pw
+
+# Warning:
+# Note that the aliases must become equivalent to some command
+# or else they will not be processed as a commands.  Aliases
+# cannot themselves be used as base command names.
+
+# Something cool:
+# If you want to disable a command for all access levels, you can do it here!
+# Ex. kill:DISABLED
+
+# White-space:
+# White-space (' ') is ignored before and after colons (':')
+# Ex. 5 : Catid   :   Password  is the same as 5:Catid:Password
+
+
+#############################
+##    Base command list    ##
+#############################
+
+# Type !help <command> in-game for usage.
+
+# - Implemented
+# ! Unimplemented
+# ? Unlisted
+# $ Sometimes listed
+
+### Owner ###
+
+# password              - Change bot password
+# closeall              - Close all spawns and terminate MERVBot process
+# autosave              - Saves database/reads INI on a timer (Saves before process termination anyway)
+# save                  - Manually save database
+# read                  - Manually re-read INI file
+# set                   - Change INI setting
+# get                   - Retrieve INI setting
+# info                  - Retrieve extensive bot state information
+# setcmd                - Add command alias
+# killcmd               - Remove command alias
+# listcmd               - List all command aliases or just those belonging to one command
+# ppl                   ? Diagnostic feature used to see if the bot is aware of player attributes
+
+### SysOp ###
+
+# close                 - Close any but the last, remaining spawn
+# spawn                 - Create a new spawn like this one
+# setbanner             - Make the bot use your banner
+# ownbot                - Allow Limited powers to anyone
+# error                 - Create zone-error broadcast channel
+# load                  - Import game features from a plugin
+# plugins               - List loaded plugins
+# unload                - Unload game features from a plugin
+
+### SuperModerator ###
+
+# addop                 - Create a bot operator
+# editop                - Change a bot operator
+# deleteop              - Remove a bot operator
+# go                    - Change spawn arena
+# limit                 - Limit bot access below an operator level
+
+### Moderator ###
+
+# setlogin              - Change !login password
+# logout                - Remove operator status
+# zone                  - Send zone-wide announcement with your nametag (HiHi -Catid)
+# say                   - Make the bot say something
+# chat                  - Set bot chat channel
+# ship                  - Set bot ship type
+# team                  - Set bot team
+# spec                  - Make bot spectate the game
+# follow                - Follow a player around the map
+# attach                - Make bot attach or detach
+# where                 - Return last known player coordinates
+# awarp                 - Bot's antiwarp on/off
+# drop                  ? Drop carried flags
+# kill                  ? Kill bot
+# version               ? Request bot version string/maker
+
+### Limited ###
+
+# give                  $ Release powers and/or grant to another player
+
+### Player ###
+
+# listop                - List [online] operators
+# login                 - Grant self operator powers
+# help                  - List available commands or request info. on a specific topic
+# own                   $ Gain Limited bot access
+# lag                   ? Show bot latency
+# sex                   ? Have sex with bot
+# sheep                 ? Sheeply bah
+# disabled              ? Disabled command response
+
+### Extra Information ###
+
+# !help arguments are also aliased.  Aliases are listed along with normal !help info
+
+# !help levels          - View operator access levels with descriptions
+# !help mod             - View moderator-level commands
+# !help smod            - View super moderator-level commands
+# !help sop             - View sysop-level commands
+# !help owner           - View owner-level commands
