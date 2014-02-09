@@ -33,9 +33,6 @@
     <ClCompile Include="chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="client.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="clientprot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

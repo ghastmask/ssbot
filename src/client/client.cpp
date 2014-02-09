@@ -1,6 +1,7 @@
-#include "botdb.h"
-#include "system.h"
-#include "settings.h"
+//TODO: setup paths correctly
+#include "../lib/botdb.h"
+#include "../lib/system.h"
+#include "../lib/settings.h"
 //#include "basewin.h"
 
 #include <conio.h>	// kbhit

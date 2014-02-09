@@ -1,4 +1,4 @@
-#include "../botdb.h"
+#include "../lib/botdb.h"
 #include <gtest/gtest.h>
 
 //opEntry *findOperator(char *name);
@@ -18,7 +18,7 @@ TEST(botdb_ut, find_operator)
 	EXPECT_EQ(nullptr, bd.findOperator("foo"));
 	bd.addOperator("foo", Operator_Level::OP_SysOp);
 	auto * op = bd.findOperator("foo");
-	EXPECT_EQ("foo", op->getName());
+	EXPECT_STREQ("foo", op->getName());
 	EXPECT_EQ(Operator_Level::OP_SysOp, op->getAccess());
 }
 

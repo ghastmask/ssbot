@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MERVBot", "MERVBot.vcxproj", "{89C3037A-801A-4A06-A317-F600A0249F93}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MERVBot", "lib\MERVBot.vcxproj", "{89C3037A-801A-4A06-A317-F600A0249F93}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{09947037-A345-4178-A2EB-9709837F78BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{89C3037A-801A-4A06-A317-F600A0249F93} = {89C3037A-801A-4A06-A317-F600A0249F93}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ssbot", "client\ssbot.vcxproj", "{3ACD6848-DEB9-4CBB-B01B-F08B36CF0E00}"
 	ProjectSection(ProjectDependencies) = postProject
 		{89C3037A-801A-4A06-A317-F600A0249F93} = {89C3037A-801A-4A06-A317-F600A0249F93}
 	EndProjectSection
@@ -24,6 +29,10 @@ Global
 		{09947037-A345-4178-A2EB-9709837F78BD}.Debug|Win32.Build.0 = Debug|Win32
 		{09947037-A345-4178-A2EB-9709837F78BD}.Release|Win32.ActiveCfg = Release|Win32
 		{09947037-A345-4178-A2EB-9709837F78BD}.Release|Win32.Build.0 = Release|Win32
+		{3ACD6848-DEB9-4CBB-B01B-F08B36CF0E00}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3ACD6848-DEB9-4CBB-B01B-F08B36CF0E00}.Debug|Win32.Build.0 = Debug|Win32
+		{3ACD6848-DEB9-4CBB-B01B-F08B36CF0E00}.Release|Win32.ActiveCfg = Release|Win32
+		{3ACD6848-DEB9-4CBB-B01B-F08B36CF0E00}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

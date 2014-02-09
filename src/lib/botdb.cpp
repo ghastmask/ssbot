@@ -229,6 +229,7 @@ opEntry *BOT_DATABASE::addOperator(char *name, Operator_Level level)
 bool BOT_DATABASE::removeOperator(const char *name)
 {
 	opEntry *op = findOperator(name);
+	if (!op) { return false; }
 	for (auto it = opList.begin(); it != opList.end(); ++it)
 	{
 		if (std::strcmp(it->getName(), op->getName()) == 0)
