@@ -171,7 +171,7 @@ void SS_ENCR::reset()
 
 void hashPassword(BYTE *in, BYTE *out)
 {
-	Uint32 L, StrLen = STRLEN((char*)in);
+	Uint32 L, StrLen = std::strlen((char*)in);
 	BYTE Factor = simpleChecksum(in, StrLen);
 	BYTE Char;
 
@@ -192,7 +192,7 @@ void hashPassword(BYTE *in, BYTE *out)
 
 void inverseHash(BYTE *In, BYTE *Out, BYTE Key)
 {
-	size_t StrLen = STRLEN((char*)In);
+	size_t StrLen = std::strlen((char*)In);
 
 	for (Uint32 L = 0; L < StrLen; ++L)
 	{
@@ -206,7 +206,7 @@ void inverseHash(BYTE *In, BYTE *Out, BYTE Key)
 
 void decryptHashedPassword(BYTE *Password)
 {
-	Uint32 StrLen = STRLEN((char*)Password);
+	Uint32 StrLen = std::strlen((char*)Password);
 
 	BYTE *Buffer = new BYTE[StrLen + 1];
 	Buffer[StrLen] = 0;

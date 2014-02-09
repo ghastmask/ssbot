@@ -159,8 +159,6 @@ public:
 	AnonymousStruct *get(Uint16 index);						// Get an item
 };
 
-Uint32 STRLEN(const char *string);								// strlen() clone
-
 bool CMPSTART(const char *control, const char *constant);				// does constant start with control?
 
 bool CMPSTR(const char *a, const char *b);								// binary compare

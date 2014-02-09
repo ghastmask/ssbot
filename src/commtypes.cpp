@@ -10,7 +10,7 @@
 
 bool invalidName(char *name)
 {
-	Uint32 len = STRLEN(name);
+	Uint32 len = std::strlen(name);
 	bool seenSpace = false;
 
 	// Name cannot be blank
@@ -58,7 +58,7 @@ bool invalidName(char *name)
 
 bool invalidArena(char *name)
 {
-	Uint32 len = STRLEN(name);
+	Uint32 len = std::strlen(name);
 
 	// Blank arena names are permissable
 	if (len == 0) return false;
@@ -92,7 +92,7 @@ bool validRemoteChat(char *text)
 {
 	bool seen = false;
 
-	for (Uint16 i = 0; i < STRLEN(text); ++i)
+	for (Uint16 i = 0; i < std::strlen(text); ++i)
 	{
 		if ((text[i] == '>') &&
 			(text[i+1] == ' '))
@@ -109,7 +109,7 @@ bool validRemotePrivate(char *text)
 {
 	bool seen = false;
 
-	for (Uint16 i = 0; i < STRLEN(text); ++i)
+	for (Uint16 i = 0; i < std::strlen(text); ++i)
 	{
 		if ((text[i] == ')') &&
 			(text[i+1] == '>'))
@@ -126,7 +126,7 @@ char *getChatName(char *text)
 {
 	Uint16 i;
 
-	for (i = 0; i < STRLEN(text); ++i)
+	for (i = 0; i < std::strlen(text); ++i)
 	{
 		if (text[i] == ':')
 		{
@@ -135,7 +135,7 @@ char *getChatName(char *text)
 		}
 	}
 
-	for (i = 0; i < STRLEN(text); ++i)
+	for (i = 0; i < std::strlen(text); ++i)
 	{
 		if ((text[i] == '>') &&
 			(text[i+1] == ' '))
@@ -150,7 +150,7 @@ char *getChatName(char *text)
 
 char *getRemoteName(char *text)
 {
-	for (Uint16 i = 0; i < STRLEN(text); ++i)
+	for (Uint16 i = 0; i < std::strlen(text); ++i)
 	{
 		if ((text[i] == ')') &&
 			(text[i+1] == '>'))
@@ -165,7 +165,7 @@ char *getRemoteName(char *text)
 
 char *getChatCommand(char *text)
 {
-	for (Uint16 i = 0; i < STRLEN(text); ++i)
+	for (Uint16 i = 0; i < std::strlen(text); ++i)
 	{
 		if ((text[i] == '>') &&
 			(text[i+1] == ' '))
@@ -179,7 +179,7 @@ char *getChatCommand(char *text)
 
 char *getRemoteCommand(char *text)
 {
-	for (Uint16 i = 0; i < STRLEN(text); ++i)
+	for (Uint16 i = 0; i < std::strlen(text); ++i)
 	{
 		if ((text[i] == ')') &&
 			(text[i+1] == '>'))
@@ -197,7 +197,7 @@ char *getRemoteCommand(char *text)
 _switch::_switch(char t, char *p)
 {
 	Uint32 len = 0;
-	while (p[len++]);	// len == STRLEN(msg) + 1
+	while (p[len++]);	// len == std::strlen(msg) + 1
 
 	param = new char[len];
 	if (param) memcpy(param, p, len);
@@ -220,7 +220,7 @@ _switch::~_switch()
 Command::Command(char *msg)
 {
 	Uint32 len = 0;
-	while (msg[len++]);	// len == STRLEN(msg) + 1
+	while (msg[len++]);	// len == std::strlen(msg) + 1
 	char *tmp = new char[len];
 	Uint32 index = 0;
 
@@ -376,7 +376,7 @@ void Command::addParam(char *msg)
 	Uint32 index = 0,
 		   len   = 0;
 	bool inParams = true;
-	while (msg[len++]);	// len == STRLEN(msg) + 1
+	while (msg[len++]);	// len == std::strlen(msg) + 1
 
 	char *tmp = new char[len];
 	char type = '\0';

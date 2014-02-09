@@ -1,7 +1,7 @@
 #include "datatypes.h"
 
 #include <cctype>
-#include <string.h>
+#include <cstring>
 
 #include "algorithms.h"
 
@@ -36,14 +36,6 @@ BYTE getByte(char *Message, const Uint32 Offset)
 
 //////// Strings ////////
 
-Uint32 STRLEN(const char *string)
-{
-	Uint32 len = 0;
-
-	while (string[len])	++len;
-
-	return len;
-}
 
 bool CMPSTART(const char *control, const char *constant)
 {
@@ -93,7 +85,7 @@ String::String(const char *s, Uint32 slen)
 
 String::String(const char *s)
 {
-	len = STRLEN(s);
+	len = std::strlen(s);
 	msg = new char[len + 1];
 	memcpy(msg, s, len);
 	msg[len] = '\0';
@@ -227,7 +219,7 @@ bool String::operator!=(const String &string)
 
 void String::operator=(const char *string)
 {
-	set(string, STRLEN(string));
+	set(string, std::strlen(string));
 }
 
 void String::operator=(Uint32 number)
@@ -244,7 +236,7 @@ void String::operator=(const String &string)
 
 void String::operator+=(const char *string)
 {
-	append(string, STRLEN(string));
+	append(string, std::strlen(string));
 }
 
 void String::operator+=(Uint32 number)
@@ -262,7 +254,7 @@ void String::operator+=(const String &string)
 String String::operator+(const char *string)
 {
 	String s(*this);
-	s.append(string, STRLEN(string));
+	s.append(string, std::strlen(string));
 
 	return s;
 }

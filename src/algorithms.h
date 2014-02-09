@@ -7,6 +7,7 @@
 #define ALGORITHMS_H
 
 #include "datatypes.h"
+#include <cstring>
 
 
 Uint32 SQRT(Uint32 factor);	// Fast integer square root

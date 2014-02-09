@@ -1,5 +1,5 @@
 #include "algorithms.h"
-
+#include <cstring>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -128,7 +128,7 @@ bool split(char d, char *in, char *out, Uint32 lx, Uint32 ly)
 
 	bool inHeader = true;	// skipping leading & trailing spaces
 
-	Sint32 slen = (Sint32)STRLEN(in) + 1;
+	Sint32 slen = (Sint32)std::strlen(in) + 1;
 
 	for (Sint32 i = 0; i < slen; ++i)
 	{
@@ -218,7 +218,7 @@ int getInteger(char *number, int base)
 
 	if (neg) ++number;
 
-	int i = 0, m = 1, len = STRLEN(number);
+	int i = 0, m = 1, len = std::strlen(number);
 
 	for (int index = len - 1; index >= 0; --index)
 	{

@@ -2754,7 +2754,7 @@ void __stdcall handleArenaList(hostMessage *m)
 	while ((index + 3) <= len)
 	{
 		char *name = msg + index;
-		length = STRLEN(name);
+		length = std::strlen(name);
 
 		Uint16 population = getShort(msg, index + length + 1);
 
@@ -3198,7 +3198,7 @@ clientMessage *generateDeath			(Uint16 player, Uint16 bounty)
 }
 
 clientMessage *generateChat				(Chat_Modes type, Chat_SoundBytes soundcode, Uint16 player, char *text)
-{	Uint32 len = limit(STRLEN(text), 250);
+{	Uint32 len = limit(std::strlen(text), 250);
 	clientMessage *ret = new clientMessage(6 + len);
 	if (ret == NULL) return NULL;
 	char *msg = ret->msg;

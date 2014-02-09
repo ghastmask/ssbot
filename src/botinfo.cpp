@@ -182,12 +182,12 @@ void BOT_INFO::maskBan()
 
 	Uint32 i;
 
-	for (i = 0; i < STRLEN(regName); ++i)
+	for (i = 0; i < std::strlen(regName); ++i)
 	{
 		regName[i] = ROT13(regName[i]);
 	}
 
-	for (i = 0; i < STRLEN(regOrg); ++i)
+	for (i = 0; i < std::strlen(regOrg); ++i)
 	{
 		regOrg[i] = ROT13(regOrg[i]);
 	}
