@@ -11,6 +11,9 @@
 #include "clientprot.h"
 #include "botinfo.h"
 
+#include <list>
+#include <memory>
+
 class opEntry
 {
 	Uint32 loginCount;		// Overall count of logins, this instantiation
@@ -27,15 +30,15 @@ public:
 	void setName(char *nname);
 	void setAccess(Operator_Level aaccess);
 
-	Operator_Level getAccess();
+	Operator_Level getAccess() const;
 
 	void addCounter();
 	void addFailure();
 	Uint32 getOverallCount();
 	Uint32 getFailureCount();
-	char *getName();
+	const char *getName() const;
 
-	bool validateName(char *nname);
+	bool validateName(const char *nname);
 	bool validatePass(char *ppass);
 };
 
@@ -46,13 +49,13 @@ class cmdAlias
 public:
 	cmdAlias(char *ccmd, char *aalias);
 
-	bool isCmd(char *ccmd);
-	bool isAlias(char *aalias);
+	bool isCmd(char *ccmd) const;
+	bool isAlias(char *aalias) const;
 
-	bool test(char *&ccmd);	// change command to alias on match
+	bool test(char *&ccmd) const;	// change command to alias on match
 
-	String &getAlias();
-	String &getCommand();
+	String const & getAlias() const;
+	String const & getCommand() const;
 };
 
 struct BOT_DATABASE
@@ -73,13 +76,13 @@ struct BOT_DATABASE
 	void loadSpawns();
 
 	// Operators
-	_linkedlist <opEntry> opList;
+	std::list <opEntry> opList;
 	bool operatorsUpdated;
 
-	opEntry *findOperator(char *name);
+	opEntry *findOperator(const char *name);
 	opEntry *addOperator(char *name, Operator_Level level);
 	opEntry *addOperator(char *name, char *pass, Operator_Level level);
-	bool removeOperator(char *name);
+	bool removeOperator(const char *name);
 
 	void loadOperators();
 	void saveOperators();
@@ -88,7 +91,7 @@ struct BOT_DATABASE
 	void loadOperators2();
 
 	// Aliasing
-	_linkedlist <cmdAlias> aliasList;
+	std::list <cmdAlias> aliasList;
 	bool aliasesUpdated;
 
 	void aliasCommand(char *&command);

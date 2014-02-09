@@ -6,6 +6,8 @@
 #ifndef DATATYPES_H
 #define DATATYPES_H
 
+#include <cstdint>
+
 typedef unsigned char	 BYTE;
 typedef unsigned char	 uchar;
 typedef unsigned char	 Uint8;
@@ -187,9 +189,9 @@ public:
 	operator char*();
 #endif
 
-	bool operator==(const char *string);
+	bool operator==(const char *string) const;
 	bool operator==(Uint32 string);
-	bool operator==(const String &string);
+	bool operator==(const String &string) const;
 
 	bool operator!=(const char *string);
 	bool operator!=(Uint32 string);

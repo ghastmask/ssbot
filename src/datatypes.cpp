@@ -183,7 +183,7 @@ void String::replace(char delimiter, char replaceChar)
 #endif
 
 
-bool String::operator==(const char *string)
+bool String::operator==(const char *string) const
 {
 	return CMPSTR(string, msg);
 }
@@ -195,7 +195,7 @@ bool String::operator==(Uint32 number)
 	return CMPSTR(s.msg, msg);
 }
 
-bool String::operator==(const String &string)
+bool String::operator==(const String &string) const
 {
 	return CMPSTR(string.msg, msg);
 }

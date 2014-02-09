@@ -720,18 +720,12 @@ try {												// Catch all command-crash bugs
 			{
 				break;
 			}
-
-			_listnode <cmdAlias> *parse = h->botInfo.db->aliasList.head;
-
-			while (parse)
+			for (auto const & alias : h->botInfo.db->aliasList)
 			{
-				cmdAlias *alias = parse->item;
-				parse = parse->next;
-
-				if (!alias->isCmd(cmd)) continue;
+				if (!alias.isCmd(cmd)) continue;
 
 				if (count++) s += " ";
-				s += alias->getAlias();
+				s += alias.getAlias();
 				anycmd = true;
 
 				if (s.len > 80)
@@ -2018,39 +2012,31 @@ try {												// Catch all command-crash bugs
 			}
 			else
 			{	// online and offline operators
-				_listnode <opEntry> *parse = h->botInfo.db->opList.head;
-
-				while (parse)
+				for (auto const & o : h->botInfo.db->opList)
 				{
-					opEntry *o = parse->item;
-					parse = parse->next;
-
-					if (access != o->getAccess())
+					if (access != o.getAccess())
 					{
-						l += getLevelString(access = o->getAccess());
+						l += getLevelString(access = o.getAccess());
 						l += ": ";
 					}
 
-					Player *xp = h->findPlayer(o->getName());
+					Player *xp = h->findPlayer(o.getName());
 					if (xp && (xp->access != OP_Player))
 						l += "%";
 
-					l += o->getName();
+					l += o.getName();
 
 					++total;
 
-					if (parse)
+					if (l.len > 80)
 					{
-						if (l.len > 80)
-						{
-							h->sendPrivate(p, l.msg);
-							l.clear();
-							access = OP_Player;
-						}
-						else
-						{
-							l += "  ";
-						}
+						h->sendPrivate(p, l.msg);
+						l.clear();
+						access = OP_Player;
+					}
+					else
+					{
+						l += "  ";
 					}
 				}
 			}

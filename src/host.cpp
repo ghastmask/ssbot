@@ -1142,7 +1142,7 @@ void Host::revokeAccess(char *name)
 	}
 }
 
-Player *Host::findPlayer(char *name)
+Player *Host::findPlayer(const char *name)
 {
 	_listnode <Player> *parse = playerlist.head;
 

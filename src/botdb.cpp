@@ -35,7 +35,7 @@ void opEntry::setAccess(Operator_Level aaccess)
 	access = aaccess;
 }
 
-Operator_Level opEntry::getAccess()
+Operator_Level opEntry::getAccess() const
 {
 	return access;
 }
@@ -60,12 +60,12 @@ Uint32 opEntry::getFailureCount()
 	return failedAttempts;
 }
 
-char *opEntry::getName()
+const char *opEntry::getName() const
 {
 	return name.msg;
 }
 
-bool opEntry::validateName(char *nname)
+bool opEntry::validateName(const char *nname)
 {
 	return (name == nname);
 }
@@ -86,17 +86,17 @@ cmdAlias::cmdAlias(char *ccmd, char *aalias)
 {
 }
 
-bool cmdAlias::isCmd(char *ccmd)
+bool cmdAlias::isCmd(char *ccmd) const
 {
 	return (cmd == ccmd);
 }
 
-bool cmdAlias::isAlias(char *aalias)
+bool cmdAlias::isAlias(char *aalias) const
 {
 	return (alias == aalias);
 }
 
-bool cmdAlias::test(char *&ccmd)
+bool cmdAlias::test(char *&ccmd) const
 {
 	if (alias == ccmd)
 	{
@@ -108,12 +108,12 @@ bool cmdAlias::test(char *&ccmd)
 	return false;
 }
 
-String &cmdAlias::getAlias()
+String const & cmdAlias::getAlias() const
 {
 	return alias;
 }
 
-String &cmdAlias::getCommand()
+String const & cmdAlias::getCommand() const
 {
 	return cmd;
 }
@@ -123,92 +123,63 @@ String &cmdAlias::getCommand()
 
 void BOT_DATABASE::aliasCommand(char *&command)
 {
-	_listnode <cmdAlias> *parse = aliasList.head;
-
-	while (parse)
+	for (auto const & cmd : aliasList)
 	{
-		cmdAlias *alias = parse->item;
-		parse = parse->next;
-
-		if (alias->test(command)) return;
+		if (cmd.test(command)) {
+			return;
+		}
 	}
 }
 
 void BOT_DATABASE::addAlias(char *command, char *alias)
 {
-	cmdAlias *a = new cmdAlias(command, alias);
-	if (a)
-	{
-		aliasList.append(a);
-
-		aliasesUpdated = true;
-	}
+	aliasList.emplace_back(command, alias);
+	aliasesUpdated = true;
 }
 
 bool BOT_DATABASE::killAlias(char *alias)
 {
-	_listnode <cmdAlias> *parse = aliasList.head;
-
-	while (parse)
+	for (auto it = aliasList.begin(); it != aliasList.end(); ++it)
 	{
-		if (parse->item->isAlias(alias))
+		if (it->isAlias(alias))
 		{
-			aliasList.kill(parse);
-
+			aliasList.erase(it);
 			aliasesUpdated = true;
-
 			return true;
 		}
-
-		parse = parse->next;
 	}
-
 	return false;
 }
 
-cmdAlias *BOT_DATABASE::findAlias(char *alias)
+cmdAlias * BOT_DATABASE::findAlias(char *alias)
 {
-	_listnode <cmdAlias> *parse = aliasList.head;
-
-	while (parse)
+	for (auto & it : aliasList)
 	{
-		cmdAlias *a = parse->item;
-
-		if (a->isAlias(alias))
-			return a;
-
-		parse = parse->next;
+		if (it.isAlias(alias))
+		{
+			return &it;
+		}
 	}
-
-	return NULL;
+	return nullptr;
 }
 
 String BOT_DATABASE::getAliasList(char *command)
 {
-	_listnode <cmdAlias> *parse = aliasList.head;
-
 	String s;
-
-	Uint32 count = 0;
-
-	while (parse)
+	std::uint32_t count = 0;
+	for (auto const & it : aliasList)
 	{
-		cmdAlias *alias = parse->item;
-		parse = parse->next;
-
-		if (alias->isCmd(command))
+		if (it.isCmd(command))
 		{
 			if (count > 4)
 			{
 				s += "...";
-
 				break;
 			}
 			else
 			{
-				if (count++) s += " ";
-
-				s += alias->getAlias();
+				if (count++) { s += " "; }
+				s += it.getAlias();
 			}
 		}
 	}
@@ -219,55 +190,33 @@ String BOT_DATABASE::getAliasList(char *command)
 
 //////// Operators ////////
 
-opEntry *BOT_DATABASE::findOperator(char *name)
+opEntry * BOT_DATABASE::findOperator(const char *name)
 {
-	_listnode <opEntry> *parse = opList.head;
-
-	while (parse)
+	for (auto & op : opList)
 	{
-		opEntry *op = parse->item;
-
-		if (op->validateName(name))
+		if (op.validateName(name))
 		{
-			return op;
+			return &op;
 		}
-
-		parse = parse->next;
 	}
-
-	return NULL;
+	return nullptr;
 }
 
-opEntry *BOT_DATABASE::addOperator(char *name, char *pass, Operator_Level access)
+opEntry * BOT_DATABASE::addOperator(char *name, char *pass, Operator_Level access)
 {
-	opEntry *op = new opEntry(name, pass, access);
-
-	if (op)
-	{
-		_listnode <opEntry> *parse = opList.head;
-
-		while (parse)
-		{
-			opEntry *nop = parse->item;
-
-			if (nop->getAccess() < access)
-			{
-				opList.insertBefore(parse, op);
-
-				operatorsUpdated = true;
-
-				return op;
-			}
-
-			parse = parse->next;
-		}
-
-		opList.append(op);
-	}
-
+	auto op = opEntry{ name, pass, access };
+	// This function only fails on OOM.
 	operatorsUpdated = true;
-
-	return op;
+	//TODO: not sure why this needs to be in operator level order.
+	for (auto it = opList.begin(); it != opList.end(); ++it)
+	{
+		if (it->getAccess() < access) {
+			auto o = opList.insert(it, op);
+			return &*o;
+		}
+	}
+	opList.push_back(op);
+	return &opList.back();
 }
 
 opEntry *BOT_DATABASE::addOperator(char *name, Operator_Level level)
@@ -277,15 +226,19 @@ opEntry *BOT_DATABASE::addOperator(char *name, Operator_Level level)
 	return op;
 }
 
-bool BOT_DATABASE::removeOperator(char *name)
+bool BOT_DATABASE::removeOperator(const char *name)
 {
 	opEntry *op = findOperator(name);
-	if (op == NULL) return false;
-
-	opList.kill(op);
-
-	operatorsUpdated = true;
-	return true;
+	for (auto it = opList.begin(); it != opList.end(); ++it)
+	{
+		if (std::strcmp(it->getName(), op->getName()) == 0)
+		{
+			opList.erase(it);
+			operatorsUpdated = true;
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -386,14 +339,10 @@ void BOT_DATABASE::saveOperators()
 	printf("Saving operators database...");
 
 	String s;
-	_listnode <opEntry> *parse = opList.head;
-
-	while (parse)
+	
+	for (auto const & op : opList)
 	{
-		opEntry *op = parse->item;
-		parse = parse->next;
-
-		file << Sint32(op->access) << ":" << op->name.msg << ":" << op->pass.msg << "\r\n";
+		file << Sint32(op.access) << ":" << op.name.msg << ":" << op.pass.msg << "\r\n";
 	}
 
 	operatorsUpdated = false;
@@ -416,14 +365,10 @@ void BOT_DATABASE::saveAliases()
 	printf("Saving aliases database...");
 
 	String s;
-	_listnode <cmdAlias> *parse = aliasList.head;
 
-	while (parse)
+	for (auto const & alias : aliasList)
 	{
-		cmdAlias *cmd = parse->item;
-		parse = parse->next;
-
-		file << cmd->getAlias().msg << ":" << cmd->getCommand().msg << "\r\n";
+		file << alias.getAlias().msg << ":" << alias.getCommand().msg << "\r\n";
 	}
 
 	aliasesUpdated = false;

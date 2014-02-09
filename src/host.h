@@ -342,7 +342,7 @@ public:
 	void killTurret(Player *p);		// Shaking off turrets
 	void killTurreter(Player *p);	// Detaching from a host
 
-	Player *findPlayer(char *name);
+	Player *findPlayer(const char *name);
 //	Player *findTeammate(Player *excluded, Uint16 team);
 //	Player *findHighScorer(Player *excluded, Uint16 team);
 
