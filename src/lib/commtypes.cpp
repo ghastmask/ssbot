@@ -1,7 +1,7 @@
 #include "commtypes.h"
 
 #include <cctype>
-#include <string.h>
+#include <cstring>
 
 #include "algorithms.h"
 
@@ -219,16 +219,15 @@ _switch::~_switch()
 
 Command::Command(char *msg)
 {
-	Uint32 len = 0;
-	while (msg[len++]);	// len == std::strlen(msg) + 1
+	Uint32 len = strlen(msg) + 1;
 	char *tmp = new char[len];
 	Uint32 index = 0;
 
 	cmd = new char[len];
 	cmd[0] = '\0';
 
-	final = new char[len];
-	final[0] = '\0';
+	final_ = new char[len];
+	final_[0] = '\0';
 
 	bool inStub  = true,
 			inParam = false,
@@ -299,7 +298,7 @@ Command::Command(char *msg)
 				else if (inParam)
 					addParam(tmp);
 				else
-					memcpy(final, tmp, index);
+					memcpy(final_, tmp, index);
 
 				seenSpace = false;
 
@@ -324,34 +323,12 @@ Command::Command(char *msg)
 
 bool Command::check(char *msg)
 {
-	Uint32 i = 0;
-	char c;
-
-	do
-	{
-		c = *msg++;
-
-		if (c != cmd[i++])
-			return false;
-	} while (c);
-
-	return true;
+	return strcasecmp(msg, cmd) == 0;
 }
 
 bool Command::checkParam(char *msg)
 {
-	Uint32 i = 0;
-	char c;
-
-	do
-	{
-		c = *msg++;
-
-		if (c != std::tolower(final[i++]))
-			return false;
-	} while (c);
-
-	return true;
+	return strcasecmp(msg, final_) == 0;
 }
 
 _switch *Command::getParam(char type)
@@ -430,6 +407,6 @@ Command::~Command()
 {
 	delete []cmd;
 	cmd = NULL;
-	delete []final;
-	final = NULL;
+	delete []final_;
+	final_ = NULL;
 }

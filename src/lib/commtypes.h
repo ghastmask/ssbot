@@ -33,7 +33,7 @@ struct Command
 	_linkedlist <_switch> slist;
 
 	char *cmd;		// !_______ -at=blah-s blah
-	char *final;	// !command -at=blah-s ____
+	char *final_;	// !command -at=blah-s ____
 
 	Command(char *msg);				// Parse
 	~Command();						// Clean up

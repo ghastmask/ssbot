@@ -9,6 +9,9 @@
 #include "datatypes.h"
 #include <cstring>
 
+#ifdef _WIN32 || _WIN64
+#define strcasecmp stricmp
+#endif
 
 Uint32 SQRT(Uint32 factor);	// Fast integer square root
 
