@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClCompile Include="botdb_ut.cpp" />
     <ClCompile Include="cmdalias_ut.cpp" />
+    <ClCompile Include="Command_Registrar_ut.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="command_ut.cpp" />
   </ItemGroup>

@@ -90,6 +90,9 @@
     <ClCompile Include="commands\Password.cpp">
       <Filter>Source Files\commands</Filter>
     </ClCompile>
+    <ClCompile Include="Command_Registrar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithms.h">
@@ -162,6 +165,9 @@
       <Filter>Header Files\commands</Filter>
     </ClInclude>
     <ClInclude Include="Host_Base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command_Registrar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

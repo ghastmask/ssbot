@@ -27,6 +27,7 @@ struct Command_Config
 struct Cmd
 {
 	Cmd(Command_Config const & cfg)
+	: config_(cfg)
 	{
 	}
 	virtual ~Cmd() { }

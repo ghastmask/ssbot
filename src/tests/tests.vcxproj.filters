@@ -27,6 +27,9 @@
     <ClCompile Include="command_ut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Command_Registrar_ut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test_Host.h">

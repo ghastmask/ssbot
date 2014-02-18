@@ -107,6 +107,8 @@
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="clientprot.cpp" />
     <ClCompile Include="command.cpp" />
+    <ClCompile Include="commands\Password.cpp" />
+    <ClCompile Include="Command_Registrar.cpp" />
     <ClCompile Include="commtypes.cpp" />
     <ClCompile Include="datatypes.cpp" />
     <ClCompile Include="dllcore.cpp" />
@@ -131,6 +133,8 @@
     <ClInclude Include="chunk.h" />
     <ClInclude Include="clientprot.h" />
     <ClInclude Include="command.h" />
+    <ClInclude Include="commands\Password.h" />
+    <ClInclude Include="Command_Registrar.h" />
     <ClInclude Include="commtypes.h" />
     <ClInclude Include="datatypes.h" />
     <ClInclude Include="dllcore.h" />
