@@ -114,6 +114,7 @@
     <ClCompile Include="hack.cpp" />
     <ClCompile Include="host.cpp" />
     <ClCompile Include="hostlist.cpp" />
+    <ClCompile Include="Host_Base.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="prng.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="hack.h" />
     <ClInclude Include="host.h" />
     <ClInclude Include="hostlist.h" />
+    <ClInclude Include="Host_Base.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="prng.h" />

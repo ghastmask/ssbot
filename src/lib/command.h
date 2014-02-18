@@ -8,14 +8,41 @@
 
 //#define DISABLE_COMMANDS
 
-class Host;
+
 #include "player.h"
+#include "host.h"
 #include "commtypes.h"
+#include <map>
+#include <string>
+
+// represents the elements in the command config.
+struct Command_Config
+{
+	std::string name;
+	std::string help;
+	Operator_Level min_level;
+	bool show_in_help;
+};
+
+struct Cmd
+{
+	Cmd(Command_Config const & cfg)
+	{
+	}
+	virtual ~Cmd() { }
+
+	virtual void execute(Host_Base & h, Command & c, Player * p) = 0;
+
+	Command_Config const & config() { return config_; }
+
+private:
+	Command_Config config_;
+};
 
 
-void gotHelp(Host *h, Player *p, Command *c);
-void gotCommand(Host *h, Player *p, char *m);
-void gotRemoteHelp(Host *h, char *p, Command *c, Operator_Level l);
-void gotRemote(Host *h, char *p, char *m);
+void gotHelp(Host_Base *h, Player *p, Command *c);
+void gotCommand(Host_Base *h, Player *p, char *m);
+void gotRemoteHelp(Host_Base *h, char *p, Command *c, Operator_Level l);
+void gotRemote(Host_Base *h, char *p, char *m);
 
 #endif	// COMMAND_H

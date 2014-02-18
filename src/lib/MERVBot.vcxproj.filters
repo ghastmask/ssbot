@@ -13,6 +13,12 @@
       <UniqueIdentifier>{4b0fc8eb-8c9d-4d0c-adbd-e6860fc51fb2}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Source Files\commands">
+      <UniqueIdentifier>{27da3a48-f892-43ec-953d-aa0aa81220e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\commands">
+      <UniqueIdentifier>{c34f2668-3c77-484b-9475-931a9fa37080}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algorithms.cpp">
@@ -77,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="system.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Host_Base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="commands\Password.cpp">
+      <Filter>Source Files\commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +156,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\Password.h">
+      <Filter>Header Files\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Host_Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

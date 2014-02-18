@@ -48,6 +48,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -74,6 +75,10 @@
     <ClCompile Include="botdb_ut.cpp" />
     <ClCompile Include="cmdalias_ut.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="command_ut.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Test_Host.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

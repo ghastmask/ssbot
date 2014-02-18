@@ -9,11 +9,11 @@
 
 //////// Commands ////////
 
-void gotHelp(Host *h, Player *p, Command *c)
+void gotHelp(Host_Base *h, Player *p, Command *c)
 {
-	char *tfinal = c->final;
+	char *tfinal = c->final_;
 
-	if (!*c->final)
+	if (!*c->final_)
 	{	// No parameter
 		if (p->access >= OP_Moderator)
 		{
@@ -77,22 +77,22 @@ void gotHelp(Host *h, Player *p, Command *c)
 	}
 	else
 	{
-		h->botInfo.db->aliasCommand(c->final);
+		h->botInfo.db->aliasCommand(c->final_);
 	}
 
 	{	// Display alias(es)
-		String alist = h->botInfo.db->getAliasList(c->final);
+		String alist = h->botInfo.db->getAliasList(c->final_);
 		if (alist.len)
 		{
 			String s;
 			s += "AKA  ";
-			s += c->final;
+			s += c->final_;
 			s += " ";
 			s += alist;
 			h->sendPrivate(p, s.msg);
 		}
 
-		// Remove ! from c.final
+		// Remove ! from c.final_
 	}
 
 	switch (p->access)
@@ -361,11 +361,11 @@ void gotHelp(Host *h, Player *p, Command *c)
 
 	h->imports->talk(makeLocalHelp(p, c));
 
-	c->final = tfinal;
+	c->final_ = tfinal;
 }
 
 
-void gotCommand(Host *h, Player *p, char *m)
+void gotCommand(Host_Base *h, Player *p, char *m)
 {
 
 #ifdef DISABLE_COMMANDS
@@ -406,13 +406,13 @@ try {												// Catch all command-crash bugs
 		if (c.check("password"))
 		{
 			String s;
-			if (*c.final)
+			if (*c.final_)
 			{
 				s += "?password=";
-				s += c.final;
+				s += c.final_;
 				h->sendPublic(s.msg);
 
-				h->botInfo.setLogin(h->botInfo.name, c.final, h->botInfo.staffpw);
+				h->botInfo.setLogin(h->botInfo.name, c.final_, h->botInfo.staffpw);
 
 				h->sendPrivate(p, "Updated local bot parameters and requested network password change");
 			}
@@ -500,9 +500,9 @@ try {												// Catch all command-crash bugs
 #ifdef KEEP_LOG
 			int max = 5;
 
-			if (isNumeric(c.final))
+			if (isNumeric(c.final_))
 			{
-				max = getInteger(c.final, 10);
+				max = getInteger(c.final_, 10);
 				if (max < 1) max = 5;
 			}
 
@@ -518,9 +518,9 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("autosave"))
 		{
-			if (isNumeric(c.final))
+			if (isNumeric(c.final_))
 			{
-				Uint32 interval = getInteger(c.final, 10);
+				Uint32 interval = getInteger(c.final_, 10);
 
 				if ((interval >= 30) && (interval <= 10000000))
 				{
@@ -592,7 +592,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("set"))
 		{
-			String out = c.final;
+			String out = c.final_;
 
 			String app, key, str;
 
@@ -614,7 +614,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("get"))
 		{
-			String out = c.final;
+			String out = c.final_;
 
 			String app, key;
 
@@ -637,9 +637,9 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("setcmd"))
 		{
-			tolower(c.final);
+			tolower(c.final_);
 
-			String out = c.final;
+			String out = c.final_;
 
 			String command, alias;
 
@@ -684,19 +684,19 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("killcmd"))
 		{
-			tolower(c.final);
+			tolower(c.final_);
 
 			String s;
-			if (h->botInfo.db->killAlias(c.final))
+			if (h->botInfo.db->killAlias(c.final_))
 			{
 				s += "Removed alias \'";
-				s += c.final;
+				s += c.final_;
 				s += "\'";
 			}
 			else
 			{
 				s += "Alias \'";
-				s += c.final;
+				s += c.final_;
 				s += "\' does not exist";
 			}
 			h->sendPrivate(p, s.msg);
@@ -707,7 +707,7 @@ try {												// Catch all command-crash bugs
 			String s;
 			Uint32 count = 0;
 			s += "Cmd: ";
-			char *cmd = c.final;
+			char *cmd = c.final_;
 
 			if (*cmd)
 			{
@@ -741,7 +741,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("pball"))
 		{
-			int id = getInteger(c.final, 10);
+			int id = getInteger(c.final_, 10);
 			_listnode<PBall> *parse = h->ballList.head;
 
 			while (parse)
@@ -767,7 +767,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("test_obj"))
 		{
-			Player *pp = h->findPlayer(c.final);
+			Player *pp = h->findPlayer(c.final_);
 			if (!pp) break;
 
 			lvzObject obj[8];
@@ -806,13 +806,13 @@ try {												// Catch all command-crash bugs
 			_switch *s;
 
 			// Name
-			if (invalidName(c.final))
+			if (invalidName(c.final_))
 			{
 				h->sendPrivate(p, "Aborted: The bot name you gave me is invalid");
 
 				break;
 			}
-			name = c.final;
+			name = c.final_;
 
 			// Password
 			if (s = c.getParam('p'))
@@ -885,7 +885,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("door"))
 		{
-			if (!*c.final)
+			if (!*c.final_)
 			{
 				h->sendPrivate(p, "Syntax: !door <door mode>");
 				break;
@@ -893,23 +893,23 @@ try {												// Catch all command-crash bugs
 
 			_linkedlist <String> settings;
 
-			settings.append(new String("Door:DoorMode:" + String(c.final)));
+			settings.append(new String("Door:DoorMode:" + String(c.final_)));
 
 			h->postRR(generateChangeSettings(settings));
 		}
 		else if (c.check("load"))
 		{
-			if (!*c.final)
+			if (!*c.final_)
 			{
 				h->sendPrivate(p, "Syntax: !load <filename>");
 				break;
 			}
 
-			if (h->imports->importLibrary(c.final))	// Attempt to load new callbacks
+			if (h->imports->importLibrary(c.final_))	// Attempt to load new callbacks
 			{
 				String s;
 				s += "Successfully loaded module(s) \'";
-				s += c.final;
+				s += c.final_;
 				s += "\'.";
 				h->sendPrivate(p, s.msg);
 
@@ -956,9 +956,9 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("unload"))
 		{
-			if (isNumeric(c.final))
+			if (isNumeric(c.final_))
 			{
-				int n = getInteger(c.final, 10);
+				int n = getInteger(c.final_, 10);
 
 				h->imports->clearImport(n);
 
@@ -1130,16 +1130,16 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("limit"))
 		{
-			if (*c.final)
+			if (*c.final_)
 			{
-				if (!isNumeric(c.final))
+				if (!isNumeric(c.final_))
 				{
 					h->sendPrivate(p, "Format: !limit <numerical operator level>");
 
 					break;
 				}
 
-				Uint16 limit = getInteger(c.final, 10);
+				Uint16 limit = getInteger(c.final_, 10);
 				if (limit > OP_Owner) limit = OP_Owner;
 
 				if (limit > p->access)
@@ -1161,11 +1161,11 @@ try {												// Catch all command-crash bugs
 		else if (c.check("addop"))
 		{
 			// Only valid names
-			if (invalidName(c.final))
+			if (invalidName(c.final_))
 			{
 				String s;
 				s += "Invalid operator name \'";
-				s += c.final;
+				s += c.final_;
 				s += "\'";
 				h->sendPrivate(p, s.msg);
 
@@ -1176,7 +1176,7 @@ try {												// Catch all command-crash bugs
 			Operator_Level access;
 
 			// Only new names
-			op = h->botInfo.db->findOperator(c.final);
+			op = h->botInfo.db->findOperator(c.final_);
 
 			if (op)
 			{
@@ -1201,7 +1201,7 @@ try {												// Catch all command-crash bugs
 				access = OP_Moderator;
 
 			// Add operator
-			op = h->botInfo.db->addOperator(c.final, "", access);
+			op = h->botInfo.db->addOperator(c.final_, "", access);
 
 			if (!op)
 			{
@@ -1232,11 +1232,11 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("go"))
 		{
-			if (invalidArena(c.final))
+			if (invalidArena(c.final_))
 			{
 				String s;
 				s += "Denied! Invalid arena name \'";
-				s += c.final;
+				s += c.final_;
 				s += "\'";
 				h->sendPrivate(p, s.msg);
 
@@ -1245,19 +1245,19 @@ try {												// Catch all command-crash bugs
 
 			String s;
 			s += "Moving to \'";
-			s += c.final;
+			s += c.final_;
 			s += "\'";
 			h->sendRemotePrivate(p->name, s.msg);
 
-			h->botInfo.setArena(c.final, h->botInfo.initialShip, h->botInfo.xres, h->botInfo.yres, h->botInfo.allowAudio);
+			h->botInfo.setArena(c.final_, h->botInfo.initialShip, h->botInfo.xres, h->botInfo.yres, h->botInfo.allowAudio);
 
-			h->changeArena(c.final);
+			h->changeArena(c.final_);
 		}
 		else if (c.check("editop"))
 		{
 			opEntry *op;
 
-			op = h->botInfo.db->findOperator(c.final);
+			op = h->botInfo.db->findOperator(c.final_);
 
 			if (!op)
 			{
@@ -1324,7 +1324,7 @@ try {												// Catch all command-crash bugs
 		else if (c.check("deleteop"))
 		{
 			// Determine which operator is being requested removed
-			opEntry *xop = h->botInfo.db->findOperator(c.final);
+			opEntry *xop = h->botInfo.db->findOperator(c.final_);
 
 			if (!xop)
 			{
@@ -1363,7 +1363,7 @@ try {												// Catch all command-crash bugs
 		if (c.check("setlogin"))
 		{
 			opEntry *op = h->botInfo.db->findOperator(p->name);
-			op->setPassword(c.final);
+			op->setPassword(c.final_);
 
 			String s;
 
@@ -1374,7 +1374,7 @@ try {												// Catch all command-crash bugs
 			else
 			{
 				s += "Login password changed to ";
-				s += c.final;
+				s += c.final_;
 			}
 
 			h->sendPrivate(p, s.msg);
@@ -1421,10 +1421,10 @@ try {												// Catch all command-crash bugs
 		{
 			Player *xp;
 
-			if (!*c.final)
+			if (!*c.final_)
 				xp = p;
 			else
-				xp = h->findPlayer(c.final);
+				xp = h->findPlayer(c.final_);
 
 			if (xp)
 			{
@@ -1470,7 +1470,7 @@ try {												// Catch all command-crash bugs
 			Player *xp;
 			String s;
 
-			if (!*c.final)
+			if (!*c.final_)
 			{
 				if (h->follow)
 				{
@@ -1495,7 +1495,7 @@ try {												// Catch all command-crash bugs
 			}
 			else
 			{
-				xp = h->findPlayer(c.final);
+				xp = h->findPlayer(c.final_);
 			}
 
 			if (xp)
@@ -1546,13 +1546,13 @@ try {												// Catch all command-crash bugs
 		{
 			Player *xp;
 
-			if (!*c.final || c.checkParam("on"))
+			if (!*c.final_ || c.checkParam("on"))
 			{	// because people ignore the !help reference
 				xp = p;
 			}
 			else
 			{
-				xp = h->findPlayer(c.final);
+				xp = h->findPlayer(c.final_);
 			}
 
 			if (xp)
@@ -1580,7 +1580,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("ship"))
 		{
-			Uint8 ship = (getInteger(c.final, 10) - 1) & 7;
+			Uint8 ship = (getInteger(c.final_, 10) - 1) & 7;
 
 			h->botInfo.setArena(h->botInfo.initialArena, (Ship_Types)ship, h->botInfo.xres, h->botInfo.yres, h->botInfo.allowAudio);
 
@@ -1588,9 +1588,9 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("team"))
 		{
-			if (isNumeric(c.final))
+			if (isNumeric(c.final_))
 			{
-				Uint16 team = getInteger(c.final, 10);
+				Uint16 team = getInteger(c.final_, 10);
 				team %= MAX_TEAMS;
 
 				h->postRR(generateChangeTeam(team));
@@ -1600,13 +1600,13 @@ try {												// Catch all command-crash bugs
 				String s;
 				Player *px;
 
-				if (!*c.final)
+				if (!*c.final_)
 				{
 					px = p;
 				}
 				else
 				{
-					px = h->findPlayer(c.final);
+					px = h->findPlayer(c.final_);
 				}
 
 				if (px)
@@ -1619,7 +1619,7 @@ try {												// Catch all command-crash bugs
 				else
 				{
 					s += "Unable to find ";
-					s += c.final;
+					s += c.final_;
 				}
 
 				h->sendPrivate(p, s.msg);
@@ -1650,7 +1650,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("chat"))
 		{
-			if (*c.final)
+			if (*c.final_)
 			{
 				if (h->broadcastingErrors)
 				{
@@ -1659,15 +1659,15 @@ try {												// Catch all command-crash bugs
 				else
 				{
 					String s = "?chat=";
-					s += c.final;
+					s += c.final_;
 					h->sendPublic(s.msg);
 
 					s = "chat=";
-					s += c.final;
+					s += c.final_;
 					h->sendPrivate(p, s.msg);
 
 					//OmegaFirebolt added ChatChannelList to keep track of channels
-					h->botChats = c.final;
+					h->botChats = c.final_;
 				}
 			}
 			else
@@ -1677,15 +1677,15 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("say"))
 		{
-			switch (c.final[0])
+			switch (c.final_[0])
 			{
 			case '/':	// Team
-				if (c.final[1] != '/') break;
+				if (c.final_[1] != '/') break;
 
-				if ( (c.final[2] != '*') &&
-					 (c.final[2] != '?')  )
+				if ( (c.final_[2] != '*') &&
+					 (c.final_[2] != '?')  )
 				{
-					String s = c.final + 2;
+					String s = c.final_ + 2;
 
 					char bong[32];
 					int i = s.firstInstanceOf('%');
@@ -1714,10 +1714,10 @@ try {												// Catch all command-crash bugs
 				}
 				break;
 			case '\'':	// Team
-				if ( (c.final[1] != '*') &&
-					 (c.final[1] != '?')  )
+				if ( (c.final_[1] != '*') &&
+					 (c.final_[1] != '?')  )
 				{
-					String s = c.final + 1;
+					String s = c.final_ + 1;
 
 					char bong[32];
 					int i = s.firstInstanceOf('%');
@@ -1746,23 +1746,23 @@ try {												// Catch all command-crash bugs
 				}
 				break;
 			case ';':	// Channel
-				if ( (c.final[1] != '*') &&
-					 (c.final[1] != '?')  )
+				if ( (c.final_[1] != '*') &&
+					 (c.final_[1] != '?')  )
 				{
-					h->sendChannel(c.final + 1);
+					h->sendChannel(c.final_ + 1);
 				}
 				break;
 			case ':':	// Remote private
-				if (validRemotePrivate(c.final))
+				if (validRemotePrivate(c.final_))
 				{
-					h->sendRemotePrivate(c.final);
+					h->sendRemotePrivate(c.final_);
 				}
 				break;
 			default:	// Public
-				if ( (c.final[0] != '*') &&
-					 (c.final[0] != '?')  )
+				if ( (c.final_[0] != '*') &&
+					 (c.final_[0] != '?')  )
 				{
-					String s = c.final;
+					String s = c.final_;
 
 					char bong[32];
 					int i = s.firstInstanceOf('%');
@@ -1793,7 +1793,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("zone"))
 		{
-			if (!*c.final)
+			if (!*c.final_)
 			{
 				h->sendPrivate(p, "Here's how \'!zone\' works: !zone <message>  (I will add a -nametag to the end)");
 
@@ -1802,7 +1802,7 @@ try {												// Catch all command-crash bugs
 
 			String s;
 			s += "*zone";
-			s += c.final;
+			s += c.final_;
 			s += " -";
 			s += p->name;
 			h->sendPublic(s.msg);
@@ -1813,7 +1813,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("ident"))	// unlisted, get player ident
 		{
-			Player *xp = h->findPlayer(c.final);
+			Player *xp = h->findPlayer(c.final_);
 
 			if (xp)
 			{
@@ -1874,7 +1874,7 @@ try {												// Catch all command-crash bugs
 			h->revokeAccess(OP_Limited);
 			h->limitedOwner = NULL;
 
-			Player *xp = h->findPlayer(c.final);
+			Player *xp = h->findPlayer(c.final_);
 			if (xp && (xp->access == OP_Player))
 			{
 				xp->access = OP_Limited;
@@ -2061,7 +2061,7 @@ try {												// Catch all command-crash bugs
 					break;
 				}
 
-				if (op->validatePass(c.final))
+				if (op->validatePass(c.final_))
 				{	// Grant access
 
 					if (p == h->limitedOwner) h->limitedOwner = NULL;	// reset Limited ownership
@@ -2118,11 +2118,11 @@ try {												// Catch all command-crash bugs
 	c.cmd = tcmd;	// Restore pointer from alias string
 }
 
-void gotRemoteHelp(Host *h, char *p, Command *c, Operator_Level l)
+void gotRemoteHelp(Host_Base *h, char *p, Command *c, Operator_Level l)
 {
-	char *tfinal = c->final;						// Backup original pointer in case this is an alias
+	char *tfinal = c->final_;						// Backup original pointer in case this is an alias
 
-	if (!*c->final)
+	if (!*c->final_)
 	{
 		switch (l)
 		{
@@ -2151,7 +2151,7 @@ void gotRemoteHelp(Host *h, char *p, Command *c, Operator_Level l)
 	}
 	else
 	{
-		h->botInfo.db->aliasCommand(c->final);			// Check aliases
+		h->botInfo.db->aliasCommand(c->final_);			// Check aliases
 	}
 
 	switch (l)
@@ -2206,10 +2206,10 @@ void gotRemoteHelp(Host *h, char *p, Command *c, Operator_Level l)
 
 	h->imports->talk(makeRemoteHelp(p, c, l));
 
-	c->final = tfinal;
+	c->final_ = tfinal;
 }
 
-void gotRemote(Host *h, char *p, char *m)
+void gotRemote(Host_Base *h, char *p, char *m)
 {
 
 #ifdef DISABLE_COMMANDS
@@ -2282,11 +2282,11 @@ try {												// Catch all command-crash bugs
 	case OP_SuperModerator:	/* FALL THRU */
 		if (c.check("go"))
 		{
-			if (invalidArena(c.final))
+			if (invalidArena(c.final_))
 			{
 				String s;
 				s += "Denied! Invalid arena name \'";
-				s += c.final;
+				s += c.final_;
 				s += "\'";
 				h->sendRemotePrivate(p, s.msg);
 
@@ -2295,13 +2295,13 @@ try {												// Catch all command-crash bugs
 
 			String s;
 			s += "Moving to \'";
-			s += c.final;
+			s += c.final_;
 			s += "\'";
 			h->sendRemotePrivate(p, s.msg);
 
-			h->botInfo.setArena(c.final, h->botInfo.initialShip, h->botInfo.xres, h->botInfo.yres, h->botInfo.allowAudio);
+			h->botInfo.setArena(c.final_, h->botInfo.initialShip, h->botInfo.xres, h->botInfo.yres, h->botInfo.allowAudio);
 
-			h->changeArena(c.final);
+			h->changeArena(c.final_);
 			break;
 		}
 
@@ -2359,7 +2359,7 @@ try {												// Catch all command-crash bugs
 		}
 		else if (c.check("chat"))
 		{
-			if (*c.final)
+			if (*c.final_)
 			{
 				if (h->broadcastingErrors)
 				{
@@ -2368,11 +2368,11 @@ try {												// Catch all command-crash bugs
 				else
 				{
 					String s = "?chat=";
-					s += c.final;
+					s += c.final_;
 					h->sendPublic(s.msg);
 
 					s = "chat=";
-					s += c.final;
+					s += c.final_;
 					h->sendRemotePrivate(p, s.msg);
 				}
 			}

@@ -1142,23 +1142,6 @@ void Host::revokeAccess(char *name)
 	}
 }
 
-Player *Host::findPlayer(const char *name)
-{
-	_listnode <Player> *parse = playerlist.head;
-
-	while (parse)
-	{
-		Player *p = parse->item;
-
-		if (CMPSTR(p->name, name))
-			return p;
-
-		parse = parse->next;
-	}
-
-	return NULL;
-}
-
 /* unused
 Player *Host::findTeammate(Player *excluded, Uint16 team)
 {	// Find any teammate of given team excluding one player (optional if NULL)
@@ -1385,6 +1368,7 @@ void Host::resetSession()
 }
 
 Host::Host(BOT_INFO &bi)
+: Host_Base(bi)
 {
 	strncpy(creation_parameters, bi.params, 512);
 
@@ -1400,7 +1384,7 @@ Host::Host(BOT_INFO &bi)
 	resetSession();
 
 	// Stuff that shouldn't change between sessions
-	botInfo = bi;
+
 	turretMode = 0;
 	broadcastingErrors = false;
 	botChats = bi.db->initialChatChannels;

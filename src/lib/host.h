@@ -6,6 +6,7 @@
 #ifndef HOST_H
 #define HOST_H
 
+#include "Host_Base.h"
 #include "datatypes.h"
 #include "sockets.h"
 #include "chunk.h"
@@ -33,8 +34,7 @@
 #define SLOW_ITERATION             50
 #define LOG_INTERVAL             1000
 #define SYNC_INTERVAL			 2000
-#define MAX_LOG_LINES              50
-#define KEEP_LOG
+
 #define COSTLY_SPEEDUP
 #define CLUSTER_MODE
 
@@ -107,8 +107,7 @@ struct clientMessage
 	~clientMessage();						// Deallocate msg memory
 };
 
-
-class Host
+class Host : public Host_Base
 {
 public:
 	char creation_parameters[512];
@@ -154,7 +153,7 @@ public:
 	bool syncing;							// Until we get an 00 06, send 00 05
 	Uint32 lastSync;
 
-	String botChats;						// ?chat channels that the bot has subscribed to
+
 
 	Uint32 dictionary[256];					// File checksum dictionary
 
@@ -187,11 +186,6 @@ public:
 	Uint32 lastChatSend;					// Last time segment we reset send count
 	Uint16 countChatSend;					// Count since last reset
 
-#ifdef KEEP_LOG
-	int logLength;							// Total log entries
-	String *loggedChatter[MAX_LOG_LINES];	// Log of bot chatter for !log
-#endif
-
 	void postChat(BYTE mode, BYTE snd, Uint16 ident, char *msg);
 
 	void tryChat(BYTE mode, BYTE snd, Uint16 ident, char *msg);
@@ -218,16 +212,6 @@ public:
 	Uint32 getHostTime();
 	Uint32 getLocalTime(Uint32 time);
 
-	Uint32 msgSent;							// Total distinct messages sent
-	Uint32 msgRecv;							// Total distinct messages recv'd
-	Uint32 lastSyncRecv;					// Used by subspace to invalidate slow or fast time syncs
-	Sint32 timeDiff;						// Delta T between server and client - changes over time
-	Uint32 syncPing;						// Average host response time to sync requests
-	Uint32 accuPing;						// Ping time accumulator for average ping time
-	Uint32 countPing;						// Ping count accumulator for average ping time
-	Uint32 avgPing;							// Average ping time
-	Uint32 highPing;						// Highest ping outlier
-	Uint32 lowPing;							// Lowest ping outlier
 
 	// Routing
 	void gotPacket(char *msg, Uint32 len);
@@ -254,7 +238,7 @@ public:
 
 	// Core out
 	void connect(bool postDisconnect);
-	void disconnect(bool notify);
+	void disconnect(bool notify) override;
 	void syncClocks();
 	void sendDownloadCancelAck();
 
@@ -267,32 +251,20 @@ public:
 	// DLL imports
 	Uint32 lastTick;
 	friend class DLLImports;
-	DLLImports *imports;
 
 	// Prizes
 //	prizeSystem ps;
-
-	// Bricks
-	_linkedlist <Brick> brickList;
 
 	bool brickExists(Uint16 ident);
 	void doBrickEvents();
 	void updateBrickTiles();
 
-	// Goals
-	_linkedlist <Goal> goalList;
-
 	void changeGoalMode();
 	void changeGoalTiles();
-
-	// PBall
-	_linkedlist <PBall> ballList;
 
 	PBall *findBall(Uint16 ident);
 	void doBallEvents();
 
-	// Flags
-	_linkedlist <Flag> flagList;	// only lists uncarried flags
 
 	Flag *findFlag(Uint16 ident);
 	void claimFlag(Uint16 flag, Uint16 player);
@@ -301,34 +273,33 @@ public:
 	void resetFlagTiles();
 
 	// Chat
-	void sendPrivate(Player *player, char *msg);
-	void sendPrivate(Player *player, BYTE snd, char *msg);
+	void sendPrivate(Player *player, char *msg) override;
+	void sendPrivate(Player *player, BYTE snd, char *msg) override;
 
-	void sendTeam(char *msg);
-	void sendTeam(BYTE snd, char *msg);
+	void sendTeam(char *msg) override;
+	void sendTeam(BYTE snd, char *msg) override;
 
-	void sendTeamPrivate(Uint16 team, char *msg);
-	void sendTeamPrivate(Uint16 team, BYTE snd, char *msg);
+	void sendTeamPrivate(Uint16 team, char *msg) override;
+	void sendTeamPrivate(Uint16 team, BYTE snd, char *msg) override;
 
-	void sendPublic(char *msg);
-	void sendPublic(BYTE snd, char *msg);
+	void sendPublic(char *msg) override;
+	void sendPublic(BYTE snd, char *msg) override;
 
-	void sendPublicMacro(char *msg);
-	void sendPublicMacro(BYTE snd, char *msg);
+	void sendPublicMacro(char *msg) override;
+	void sendPublicMacro(BYTE snd, char *msg) override;
 
-	void sendChannel(char *msg);			// #;Message
-	void sendRemotePrivate(char *msg);		// :Name:Messsage
-	void sendRemotePrivate(char *name, char *msg);
+	void sendChannel(char *msg) override;			// #;Message
+	void sendRemotePrivate(char *msg) override;		// :Name:Messsage
+	void sendRemotePrivate(char *name, char *msg) override;
 
-	// Player
-	_linkedlist <Player> playerlist;
+
 #ifdef COSTLY_SPEEDUP
 	_referencetable <Player> qal;
 #endif
 
 	Uint16 me;						// My ident
 	Player *Me;						// My state
-	_listnode <Player> *follow;		// Followed player
+
 	bool speccing;					// Attempting to spectate followed player?
 	Uint32 lastSpec;				// Last time at which we tried to spec
 
@@ -342,7 +313,7 @@ public:
 	void killTurret(Player *p);		// Shaking off turrets
 	void killTurreter(Player *p);	// Detaching from a host
 
-	Player *findPlayer(const char *name);
+
 //	Player *findTeammate(Player *excluded, Uint16 team);
 //	Player *findHighScorer(Player *excluded, Uint16 team);
 
@@ -352,7 +323,6 @@ public:
 	void revokeAccess(char *name);		// Reset player access for one player given name
 
 	// Statistics
-	BOT_INFO botInfo;
 
 	Uint32 weaponCount;
 	Uint16 S2CSlowCurrent;
@@ -366,31 +336,24 @@ public:
 	bool inZone;							// First time bot enters arena, then constant
 	bool inArena;							// Always tracks whether bot is in arena or not
 	bool paranoid;							// Required to send extra information?
-	bool hasSysOp;							// Result of sysop check
-	bool hasSMod;							// Result of smod check
-	bool hasMod;							// Result of mod check
+
 	bool position;							// Sending position update messages
 	bool DLLFlying;							// Is the DLL in charge of the bot's position?
-	bool allowLimited;						// Enable !ownbot !own !give commands
-	char turretMode;						// 0:auto-turret, 1:controlled-turret
-	Player *limitedOwner;					// Track Limited bot owner
-	bool broadcastingErrors;				// Zone-error broadcast channel
-	Operator_Level lowestLevel;				// Lowest level command access enabled
+
+
 	Uint32 lastPosition;
 
 	void sendPosition(bool reliable, Uint32 timestamp, BYTE ptype, BYTE level, bool shrapBouncing, BYTE shrapLevel, BYTE shrapCount, bool secondary);
 	void sendPosition(bool reliable);
 	void sendPosition(Uint32 timestamp, bool reliable);
 
-	// Up time
-	Uint32 arenaJoinTime, zoneJoinTime;
 
 	// Arena state
 	bool loadedFlags;	// Loaded turf flags?
 	BYTE map[TILE_MAX_LINEAR];
 	arenaSettings settings;
 
-	void changeArena(char *name);
+	void changeArena(char *name) override;
 	void changeCoordinates();
 
 	// Logs
